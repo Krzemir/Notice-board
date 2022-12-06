@@ -17,7 +17,21 @@ exports.getById = async (req, res) => {
   }
 };
 
-//TODO gatByPhrase - search by phrase
+exports.getBySearchPhrase = async (req, res) => {
+  try {
+
+      const ad = await Ad.find({
+        $or: [
+          { title: {$regex: req.params.searchPhrase, options: 'i' } },
+          { content: {$regex: req.params.searchPhrase, options: 'i' } }
+        ]})
+
+      res.json(ad);
+    } 
+    catch (err) {
+      res.status(500).json({ message: err });
+    };
+  };
 
 exports.post = async (req, res) => {
   console.log('POST', req.body)
@@ -40,7 +54,7 @@ exports.post = async (req, res) => {
 
 exports.put = async (req, res) => {
   const { title, content, price, date, photo, localization } = req.body;
-
+  
   try {
     const ad = await Ad.findById(req.params.id);
     if (ad) {
@@ -53,6 +67,18 @@ exports.put = async (req, res) => {
       await ad.save();
       res.json({ message: 'OK', ad: ad });
   } 
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+};
+
+exports.delete = async (req, res) => {
+  try {
+    const ad = await Ad.findById(req.params.id);
+    if (ad) {
+      await ad.deleteOne({_id: req.params.id});
+      res.json({ message: 'OK', ad: ad });
+    }
   } catch (err) {
     res.status(500).json({ message: err });
   }
