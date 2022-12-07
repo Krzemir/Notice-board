@@ -1,5 +1,6 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcryptjs');
+const { request } = require( 'express' );
 
 exports.register = async (req, res) => {
   try {
@@ -27,4 +28,35 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
   
+  try {
+    const { login, password } = req.body;
+
+    if (login && typeof login ==='string' && password && typeof password ==='string') {
+
+      const user = await User.findOne({ login });
+      if (!user) {
+        return res.status(400).send({ message: 'User or password incorrect' });
+      } else {
+        console.log(user.login);
+        if (bcrypt.compareSync(password, user.password)) {
+          request.session.login = user.login;
+          res.status(200).send({ message: 'Login successful'})
+        } else {
+          return res.status(400).send({ message: 'User or password incorrect' });
+        }
+      }
+    } else {
+      res.status(400).send({ message: 'Bad request' });
+    } 
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
 }
+
+exports.getUser = async (req, res) => {
+  if (req.session.login) {
+    res.send({ login: req.session.login})
+  } else {
+    res.status(401).send({ message: 'Unauthorized entry' });
+  }
+  }
