@@ -17,13 +17,14 @@ app.listen('8000', () => {
 
 dbConnection()
 
-
 //******** middleware ***********/
 app.use(cors()); //TODO cors safety after deploy
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({ 
   secret: 'asd789', 
+  resave: false,
+  saveUninitialized: true,
   store: MongoStore.create(mongoose.connection),
 }));
 app.use(express.static(path.join(__dirname, '/client/build')));
