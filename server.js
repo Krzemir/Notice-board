@@ -37,17 +37,17 @@ app.use(session({
     secure: process.env.NODE_ENV == 'production',
   },
 }));
-app.use(express.static(path.join(__dirname, '/client/build')));
 
 //******** routes ***********/
 app.use('/api', require('./routes/ads.routes'));
 app.use('/auth', require('./routes/auth.routes'));
+app.use(express.static(path.join(__dirname, '/client/build')));
+app.use(express.static(path.join(__dirname, '/public')));
 
-//******** serve React on other links ***********/
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/client/build/index.html'));
-});
-
+//******** serve React on other links ***********/ //TODO: not necessary, better way?
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '/client/build/index.html'));
+// });
 
 app.use((req, res) => {
   res.status(404).send('404 not found...');

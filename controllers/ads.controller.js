@@ -1,4 +1,7 @@
 const Ad = require('../models/ad.model');
+const getImageFileType = require('../utils/getImageFileType');
+const path = require('path');
+const fs = require('fs');
 
 exports.getAll = async (req, res) => {
   try {
@@ -34,39 +37,59 @@ exports.getBySearchPhrase = async (req, res) => {
   };
 
 exports.post = async (req, res) => {
-  console.log('POST', req.body)
-  const { title, content, price, date, photo, localization } = req.body;
+  
   try {
-    const newAd = new Ad({
-      title: title, 
-      content: content, 
-      price: price,
-      date: date,
-      photo: photo,
-      localization: localization
-    });
-    await newAd.save();
-    res.json({ message: 'OK', ad: newAd });
+    const { title, content, price, date, localization } = req.body;
+
+    const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
+    
+      if ( title && typeof title === 'string' && content && typeof content === 'string' && price && typeof price === 'string' && date && typeof date === 'string' && localization && typeof localization === 'string' && req.file && ['image/png', 'image/jpeg', 'image/gif'].includes(fileType)) {
+        
+      const newAd = new Ad({
+        title: title, 
+        content: content, 
+        price: price,
+        date: date,
+        localization: localization,
+        user: req.session.login,
+        photo: req.file.filename
+      });
+      await newAd.save();
+      res.json({ message: 'New ad added successfully', ad: newAd });
+    } else {
+      res.status(409).send({ message: 'Invalid data added' });
+    }
   } catch (err) {
     res.status(500).json({ message: err });
   }
 };
 
 exports.put = async (req, res) => {
-  const { title, content, price, date, photo, localization } = req.body;
   
   try {
-    const ad = await Ad.findById(req.params.id);
-    if (ad) {
-      ad.title = title;
-      ad.content = content;
-      ad.price = price;
-      ad.date = date;
-      ad.photo = photo;
-      ad.localization = localization;
-      await ad.save();
-      res.json({ message: 'OK', ad: ad });
-  } 
+
+    const { title, content, price, date, localization } = req.body;
+    const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
+
+    if ( title && typeof title === 'string' && content && typeof content === 'string' && price && typeof price === 'string' && date && typeof date === 'string' && localization && typeof localization === 'string') {
+
+        const ad = await Ad.findById(req.params.id);
+        if (ad) {
+          ad.title = title;
+          ad.content = content;
+          ad.price = price;
+          ad.date = date;
+          ad.localization = localization;
+          if (req.file && ['image/png', 'image/jpeg', 'image/gif'].includes(fileType)) {
+            fs.unlinkSync((path.join(__dirname, '../public/uploads/', ad.photo)));
+            ad.photo = req.file.filename;
+          }
+          await ad.save();
+          res.json({ message: 'Ad updated', ad: ad });
+      } 
+    } else {
+      res.status(409).send({ message: 'Invalid data added' });
+    };
   } catch (err) {
     res.status(500).json({ message: err });
   }
@@ -76,8 +99,10 @@ exports.delete = async (req, res) => {
   try {
     const ad = await Ad.findById(req.params.id);
     if (ad) {
+      fs.unlinkSync((path.join(__dirname, '../public/uploads/', ad.photo)));
       await ad.deleteOne({_id: req.params.id});
-      res.json({ message: 'OK', ad: ad });
+      
+      res.json({ message: 'Ad deleted', ad: ad });
     }
   } catch (err) {
     res.status(500).json({ message: err });
