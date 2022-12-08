@@ -1,23 +1,26 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcryptjs');
-const { request } = require( 'express' );
+const getImageFileType = require('../utils/getImageFileType');
 
 exports.register = async (req, res) => {
   try {
 
-    const { login, password } = req.body;
+    const { login, password, phone } = req.body;
+    console.log(req.file);
 
-    if (login && typeof login === 'string' && password && typeof password === 'string') {
+    const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
+    console.log('filetype', fileType);
+
+    if (login && typeof login === 'string' && password && typeof password === 'string' && phone && typeof phone === 'string' && req.file && ['image/png', 'image/jpeg', 'image/gif'].includes(fileType)) {
       const userWithLogin = await User.findOne({ login });
-
       if (userWithLogin) {
         return res.status(409).send({ message: 'User exists already' });
       }
 
-      const user = await User.create({ login, password: await bcrypt.hash(password, 10) 
-        /* avatar: req.file.filename */ });
+      const user = await User.create({ login, password: await bcrypt.hash(password, 10), 
+        avatar: req.file.filename });
       
-      res.status(201).send({ message: 'User created successfully' + user.login });
+      res.status(201).send({ message: 'User created successfully: ' + user.login });
   } else {
     res.status(400).send({ message: 'Invalid request' });
   }
@@ -39,6 +42,7 @@ exports.login = async (req, res) => {
       } else {
         if (bcrypt.compareSync(password, user.password)) {
           req.session.login = user.login;
+          req.session.id = user._id;
           res.status(200).send({ message: 'Login successful'})
         } else {
           return res.status(400).send({ message: 'User or password incorrect' });
@@ -55,3 +59,12 @@ exports.login = async (req, res) => {
 exports.getUser = async (req, res) => {
     res.send({ message: `User: ${req.session.login } is logged in` })
   }
+
+exports.delete = async (req, res) => {
+  try {
+    req.session.destroy();
+    return res.status(200).send({ message: 'Session destroyed' });
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+}

@@ -18,21 +18,30 @@ app.listen('8000', () => {
 dbConnection()
 
 //******** middleware ***********/
-app.use(cors()); //TODO cors safety after deploy
+if(process.env.NODE_ENV !== 'production') {
+  app.use(
+    cors({
+      origin: ['http://localhost:3000'],
+      credentials: true,
+    })
+  );
+}
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({ 
-  secret: 'asd789', 
+  secret: process.env.SECRET, 
   resave: false,
   saveUninitialized: true,
   store: MongoStore.create(mongoose.connection),
+  cookie: {
+    secure: process.env.NODE_ENV == 'production',
+  },
 }));
 app.use(express.static(path.join(__dirname, '/client/build')));
 
 //******** routes ***********/
 app.use('/api', require('./routes/ads.routes'));
 app.use('/auth', require('./routes/auth.routes'));
-app.use('/auth/user', require('./routes/auth.routes'));
 
 //******** serve React on other links ***********/
 app.get('*', (req, res) => {
