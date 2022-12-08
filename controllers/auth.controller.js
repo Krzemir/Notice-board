@@ -37,7 +37,6 @@ exports.login = async (req, res) => {
       if (!user) {
         return res.status(400).send({ message: 'User or password incorrect' });
       } else {
-        console.log(user.login);
         if (bcrypt.compareSync(password, user.password)) {
           req.session.login = user.login;
           res.status(200).send({ message: 'Login successful'})
@@ -54,9 +53,5 @@ exports.login = async (req, res) => {
 }
 
 exports.getUser = async (req, res) => {
-  if (req.session.login) {
-    res.send({ login: req.session.login})
-  } else {
-    res.status(401).send({ message: 'Unauthorized entry' });
-  }
+    res.send({ message: `User: ${req.session.login } is logged in` })
   }

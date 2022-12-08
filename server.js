@@ -31,7 +31,6 @@ app.use(express.static(path.join(__dirname, '/client/build')));
 
 //******** routes ***********/
 app.use('/api', require('./routes/ads.routes'));
-app.use('/api', require('./routes/users.routes'));
 app.use('/auth', require('./routes/auth.routes'));
 app.use('/auth/user', require('./routes/auth.routes'));
 
