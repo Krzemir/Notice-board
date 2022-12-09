@@ -6,6 +6,8 @@ const dbConnection = require('./db')
 require('dotenv').config()
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const helmet = require('helmet');
+
 
 //******** express server start ***********/
 const app = express();
@@ -37,6 +39,8 @@ app.use(session({
     secure: process.env.NODE_ENV == 'production',
   },
 }));
+app.use(helmet());
+
 
 //******** routes ***********/
 app.use('/api', require('./routes/ads.routes'));

@@ -2,6 +2,7 @@ const Ad = require('../models/ad.model');
 const getImageFileType = require('../utils/getImageFileType');
 const path = require('path');
 const fs = require('fs');
+const mongoSanitize = require('mongo-sanitize');
 
 exports.getAll = async (req, res) => {
   try {
@@ -39,7 +40,8 @@ exports.getBySearchPhrase = async (req, res) => {
 exports.post = async (req, res) => {
   
   try {
-    const { title, content, price, date, localization } = req.body;
+
+    const { title, content, price, date, localization } = mongoSanitize(req.body);
 
     const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
     
@@ -68,7 +70,7 @@ exports.put = async (req, res) => {
   
   try {
 
-    const { title, content, price, date, localization } = req.body;
+    const { title, content, price, date, localization } = mongoSanitize(req.body);
     const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
 
     if ( title && typeof title === 'string' && content && typeof content === 'string' && price && typeof price === 'string' && date && typeof date === 'string' && localization && typeof localization === 'string') {
