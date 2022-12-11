@@ -47,6 +47,9 @@ exports.post = async (req, res) => {
     
       if ( title && typeof title === 'string' && content && typeof content === 'string' && price && typeof price === 'string' && date && typeof date === 'string' && localization && typeof localization === 'string' && req.file && ['image/png', 'image/jpeg', 'image/gif'].includes(fileType)) {
         
+
+        // const userId = await User.findOne({ login: req.session.login });
+        // console.log(userId)
       const newAd = new Ad({
         title: title, 
         content: content, 

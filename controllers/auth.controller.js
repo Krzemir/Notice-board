@@ -41,6 +41,8 @@ exports.login = async (req, res) => {
     if (login && typeof login ==='string' && password && typeof password ==='string') {
 
       const user = await User.findOne({ login });
+      const users = await User.find();
+    
       if (!user) {
         return res.status(400).send({ message: 'User or password incorrect' });
       } else {
