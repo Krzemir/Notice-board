@@ -6,7 +6,7 @@ const mongoSanitize = require('mongo-sanitize');
 
 exports.getAll = async (req, res) => {
   try {
-    res.json(await Ad.find());
+    res.json(await Ad.find().populate('user'));
   } catch (err) {
     res.status(500).json({ message: err });
   }
@@ -14,7 +14,7 @@ exports.getAll = async (req, res) => {
 
 exports.getById = async (req, res) => {
   try {
-    const ad = await Ad.find({ id: req.params.id});
+    const ad = await Ad.find({ _id: req.params.id}).populate('user');
     res.json(ad);
   } catch (err) {
     res.status(500).json({ message: err });
@@ -23,12 +23,11 @@ exports.getById = async (req, res) => {
 
 exports.getBySearchPhrase = async (req, res) => {
   try {
-
       const ad = await Ad.find({
         $or: [
-          { title: {$regex: req.params.searchPhrase, options: 'i' } },
-          { content: {$regex: req.params.searchPhrase, options: 'i' } }
-        ]})
+          { title: {$regex: req.params.searchPhrase, $options: 'i' } },
+          { content: {$regex: req.params.searchPhrase, $options: 'i' } }
+        ]}).populate('user')
 
       res.json(ad);
     } 
@@ -47,16 +46,13 @@ exports.post = async (req, res) => {
     
       if ( title && typeof title === 'string' && content && typeof content === 'string' && price && typeof price === 'string' && date && typeof date === 'string' && localization && typeof localization === 'string' && req.file && ['image/png', 'image/jpeg', 'image/gif'].includes(fileType)) {
         
-
-        // const userId = await User.findOne({ login: req.session.login });
-        // console.log(userId)
       const newAd = new Ad({
         title: title, 
         content: content, 
         price: price,
         date: date,
         localization: localization,
-        user: req.session.login,
+        user: req.session.userId,
         photo: req.file.filename
       });
       await newAd.save();

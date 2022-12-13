@@ -10,10 +10,12 @@ import styles from './Ad.module.scss';
 
 
 const Ad = () => {
-
   const adId = useParams().id;
+  const ad = useSelector(getAdById(adId));
   
-  const {title, content, date, photo, localization, price, user} = useSelector(getAdById(adId));
+  if(!ad) return null;
+
+  const {title, content, date, photo, localization, price, user} = ad
 
   return (
     <div>

@@ -41,14 +41,14 @@ exports.login = async (req, res) => {
     if (login && typeof login ==='string' && password && typeof password ==='string') {
 
       const user = await User.findOne({ login });
-      const users = await User.find();
     
       if (!user) {
         return res.status(400).send({ message: 'User or password incorrect' });
       } else {
         if (bcrypt.compareSync(password, user.password)) {
           req.session.login = user.login;
-          req.session.id = user._id;
+          const userId = user.id;
+          req.session.userId = userId;
           res.status(200).send({ message: 'Login successful'})
         } else {
           return res.status(400).send({ message: 'User or password incorrect' });
@@ -63,6 +63,7 @@ exports.login = async (req, res) => {
 }
 
 exports.getUser = async (req, res) => {
+  console.log(req.session.userId)
     res.send({ message: `User: ${req.session.login } is logged in` })
   }
 
