@@ -1,9 +1,13 @@
-const Login = () => {
-  return ( 
+import AdForm from "../features/AdForm";
+
+const NewAd = () => {
+  return (
+
     <div>
-      <h1>Login</h1>
+      <h1>New Notice</h1>
+      <AdForm />
     </div>
    );
 }
  
-export default Login;
+export default NewAd;

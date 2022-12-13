@@ -7,7 +7,8 @@ const imageUpload = require('../utils/imageUpload');
 router.get('/ads/', AdsController.getAll);
 router.get('/ads/:id', AdsController.getById);
 router.get('/ads/search/:searchPhrase', AdsController.getBySearchPhrase);
-router.post('/ads/',  authMiddleware, imageUpload.single('photo'), AdsController.post);
+router.post('/ads/',  imageUpload.single('photo'), AdsController.post);
+// router.post('/ads/',  authMiddleware, imageUpload.single('photo'), AdsController.post);
 router.put('/ads/:id',  authMiddleware, imageUpload.single('photo'), AdsController.put);
 router.delete('/ads/:id', authMiddleware, AdsController.delete);
 

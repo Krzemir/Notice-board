@@ -1,15 +1,19 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { NavLink } from 'react-router-dom';
 import styles from './AdCard.module.scss';
+import { IMGS_URL } from '../../config';
 
-const AdCard = ({ title, localization, photo }) => {
+const AdCard = ({ title, localization, photo, id }) => {
   return ( 
     <Card style={{ width: '18rem', marginBottom: '2rem' }} >
-      <Card.Img variant="top"  className={`${styles.cardImage} my-2`} src={`http://localhost:8000/uploads/${ photo }`} />
+      <Card.Img variant="top"  className={`${styles.cardImage} my-2`} src={IMGS_URL + photo } />
       <Card.Body>
         <Card.Title>{ title }</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{ localization }</Card.Subtitle>
-        <Button variant="primary" >Se(a) it!</Button>
+        <NavLink to={`/ad/${id}`} >
+          <Button variant="primary" >Se(a) it!</Button>
+        </NavLink>
       </Card.Body>
     </Card>
    );
