@@ -1,6 +1,9 @@
+import Row from 'react-bootstrap/Row';
 const Footer = () => {
   return ( 
-      <div className="text-center text-muted mb-4" >Copyright &#169; Notice Board 2022</div>
+      <Row className="col-12 col-sm-3 text-muted mx-auto my-5" >
+         Copyright &#169; Notice Board 2022
+      </Row>
    );
 }
 

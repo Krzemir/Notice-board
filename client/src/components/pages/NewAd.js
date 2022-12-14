@@ -4,7 +4,6 @@ const NewAd = () => {
   return (
 
     <div>
-      <h1>New Notice</h1>
       <AdForm />
     </div>
    );

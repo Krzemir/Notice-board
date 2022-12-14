@@ -1,7 +1,5 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addAdRequest } from '../../redux/adsRedux';
@@ -17,7 +15,6 @@ const AdForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(name, price, localization);
     dispatch(addAdRequest({name, price, localization}))
     setName('');
     setPrice('');
@@ -28,9 +25,9 @@ const AdForm = () => {
 
   return ( 
     
-    <Form onSubmit={handleSubmit}>
-      <Row className="justify-content-md-center">
-      <Col sm="4">
+    <Form className='col-12 col-sm-3 mx-auto' onSubmit={handleSubmit}>
+      <h1 style={{ color: '#111947' }}>New Notice</h1>
+
       <Form.Label>What are you selling?</Form.Label>
         <Form.Control className="mb-3 text-muted" type="text" placeholder="Name your boat" value={name} onChange={ (e) => setName(e.target.value) } />    
       <Form.Label>What is the price?</Form.Label>
@@ -42,8 +39,6 @@ const AdForm = () => {
       <Button variant="secondary" type="submit">
         Add your notice!
       </Button>
-      </Col>
-      </Row>
     </Form>
     
    );

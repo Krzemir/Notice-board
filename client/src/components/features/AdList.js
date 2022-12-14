@@ -7,7 +7,7 @@ const AdList = ( props ) => {
   
   return ( 
     <div>
-      <Row className='justify-content-between my-4'>
+      <Row className='d-flex flex-wrap my-4'>
         { ads.map( ad => (
           <AdCard key={ ad._id } title={ ad.title } localization={ ad.localization } photo={ ad.photo} id={ ad._id} />
         )) }

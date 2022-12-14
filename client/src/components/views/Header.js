@@ -5,7 +5,7 @@ const Header = () => {
     <div className={styles.header}>
       <img 
       src={`${process.env.PUBLIC_URL}/header-img.jpg`} className='img-fluid shadow-4' alt='Notice Boat Board header' />
-      <h1 className={styles.title}>Naval Notice Board</h1>
+      <h1 className={styles.title}>Buy your dreams... here!</h1>
     </div>
     );
 }

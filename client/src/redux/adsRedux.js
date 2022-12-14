@@ -21,7 +21,7 @@ export const addAd = payload => ({ payload, type: ADD_AD });
 //API requests
 export const fetchAds = () => {
   return (dispatch) => {
-  fetch(API_URL + '/ads')
+  fetch(API_URL + '/api/ads')
     .then(res => res.json())
     .then(ads => dispatch(loadAds(ads)))
   };
@@ -36,7 +36,7 @@ export const addAdRequest = newAdData => {
       },
       body: JSON.stringify(newAdData),
     };
-    fetch(API_URL + '/ads', options)
+    fetch(API_URL + '/api/ads', options)
     .then(() => dispatch(addAd(newAdData)))
   };
 };

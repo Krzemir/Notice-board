@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <>
       < Header />
-      <h1>All ads</h1>
+      <h1 style={{ color: '#111947' }}>All ads</h1>
       <AdList ads={ads}/>
     </>
     );
