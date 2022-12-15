@@ -1,6 +1,7 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { API_URL } from '../../config';
 import { logIn } from '../../redux/usersRedux';
@@ -14,6 +15,7 @@ const Login = () => {
   const [status, setStatus] = useState(null); // null, loading, success, serverError, clientError
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,6 +34,7 @@ const Login = () => {
         if (res.status === 200) {
           setStatus('success');
           dispatch(logIn({ login }))
+          navigate('/');
         } else if (res.status === 400) {
           setStatus('clientError');
         } else {

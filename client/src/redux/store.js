@@ -6,7 +6,7 @@ import userReducer from './usersRedux';
 
 const initialState = {
   ads: [],
-  user: null
+  users: null
 };
 
 const subreducers = {
