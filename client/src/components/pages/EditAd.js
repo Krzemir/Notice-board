@@ -2,10 +2,23 @@ import AdForm from '../features/AdForm';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getAdById } from '../../redux/adsRedux';
+import { getUser } from '../../redux/usersRedux';
+import { useNavigate } from 'react-router-dom';
 
 const EditAd = () => {
   const adId = useParams().id;
-  const ad = useSelector(getAdById(adId));
+  const userLogin = useSelector(getUser);
+  const adUser = useSelector(getAdById(adId)).user.login;
+  const adData = useSelector(getAdById(adId));
+  let ad = null;
+  const navigate = useNavigate();
+
+   if (userLogin !== null && userLogin.login === adUser) {
+    ad = adData;
+    console.log('ADdata: ', ad)
+  } else {
+    navigate('/not-found')
+  }
   
   if(!ad) return null;
 

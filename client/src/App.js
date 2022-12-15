@@ -45,6 +45,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/new-ad" element={<NewAd />} />
           <Route path="/search/:search" element={<Search />} />
+          <Route path="/not-found" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Container>

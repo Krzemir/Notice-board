@@ -3,19 +3,20 @@ import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { getAdById } from '../../redux/adsRedux';
+// import { useSelector } from 'react-redux';
+// import { useParams } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
+// import { getAdById } from '../../redux/adsRedux';
+// import { getUser } from '../../redux/usersRedux';
 import { currentDate } from '../../utils.js/getDate';
 import { API_URL } from '../../config';
 
-const AdForm = () => {
-  const id = useParams().id
-  const ad = useSelector(getAdById(id));
+const AdForm = ({ad}) => {
+  console.log('AD: ', ad)
 
-  const[name, setName] = useState(ad ? ad.title : '');
-  const[price, setPrice] = useState(ad ? ad.price : '');
-  const[localization, setLocalization] = useState(ad ? ad.localization : '');
+  const[name, setName] = useState(ad.title || '');
+  const[price, setPrice] = useState(ad.price || '');
+  const[localization, setLocalization] = useState(ad.localization || '');
   const[photo, setPhoto] = useState(null);
   const[status, setStatus] = useState(null);
 

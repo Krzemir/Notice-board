@@ -1,12 +1,9 @@
-
 import { NavLink} from "react-router-dom";
 import { Navbar, Container, Nav, Form, Button } from 'react-bootstrap';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getUser } from '../../redux/usersRedux';
 import { useNavigate } from 'react-router-dom';
-
-
 
 
 const NavBar = () => {

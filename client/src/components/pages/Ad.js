@@ -18,7 +18,6 @@ const Ad = () => {
 
   const {title, content, date, photo, localization, price, user} = ad
 
-
   return (
     <div>
       <Row>

@@ -13,13 +13,13 @@ const Search = () => {
   .then(ads => setSearchedAds(ads))
 
   console.log('ads search', searchedAds)
-  }, [search])
+  }, [])
 
   if(!searchedAds) return null;
 
   return (
     <div>
-      <h1 style={{ color: '#111947' }}>Search results</h1>
+      <h1 style={{ color: '#111947' }}>Search results for: {search}</h1>
       <AdList ads={searchedAds}/>
     </div>
     );
