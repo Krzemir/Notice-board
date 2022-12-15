@@ -44,7 +44,7 @@ function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<Register />} />
           <Route path="/new-ad" element={<NewAd />} />
-          <Route path="/search" element={<Search />} />
+          <Route path="/search/:search" element={<Search />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Container>

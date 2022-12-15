@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { getAdById } from "../../redux/adsRedux";
 import { useParams, Link } from "react-router-dom";
+import { getUser } from "../../redux/usersRedux";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -11,12 +12,12 @@ import styles from './Ad.module.scss';
 const Ad = () => {
   const adId = useParams().id;
   const ad = useSelector(getAdById(adId));
+  const userLogin = useSelector(getUser);
   
   if(!ad) return null;
 
   const {title, content, date, photo, localization, price, user} = ad
 
-  console.log('AD', ad)
 
   return (
     <div>
@@ -30,6 +31,8 @@ const Ad = () => {
             <ListGroup.Item variant="light">Date added: { date }</ListGroup.Item>
             <ListGroup.Item variant="light">By: { user.login }</ListGroup.Item>
           </ListGroup>
+
+          { userLogin && userLogin.login === user.login &&
           <div className="col border-end  d-flex justify-content-center align-items-center">
             <Link to={`${ process.env.PUBLIC_URL }/edit-ad/${ adId }`}>
             <Button variant="success" >
@@ -37,6 +40,8 @@ const Ad = () => {
             </Button>
             </Link>
           </div>
+          } 
+          
         </Col>    
        
       </Row>

@@ -4,6 +4,8 @@ import AdCard from './AdCard';
 const AdList = ( props ) => {
 
   const ads = props.ads;
+
+  console.log('ADLIST', ads)
   
   return ( 
     <div>

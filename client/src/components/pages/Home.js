@@ -7,6 +7,7 @@ const Home = () => {
 
   const ads = useSelector(getAllAds);
   
+  console.log('HOME', ads)
   return (
     <>
       < Header />
