@@ -35,12 +35,14 @@ const AdForm = ({ad}) => {
     if (!ad) {
       options = {
         method: 'POST',
+        credentials: 'include',
         body: fd,
       };
       endpoint = 'api/ads';
     } else {
       options = {
         method: 'PUT',
+        credentials: 'include',
         body: fd,
       };
       endpoint = `api/ads/${ad._id}`;
