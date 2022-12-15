@@ -2,10 +2,13 @@ import { Routes, Route } from 'react-router-dom';
 import { fetchAds } from "./redux/adsRedux";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+// import { API_URL } from './config';
+// import { logIn } from './redux/usersRedux';
 import Home from './components/pages/Home';
 import Ad from './components/pages/Ad';
 import EditAd from './components/pages/EditAd';
 import Login from './components/pages/Login';
+import Logout from './components/pages/Logout';
 import Register from './components/pages/Register';
 import NewAd from './components/pages/NewAd';
 import Search from './components/pages/Search';
@@ -19,9 +22,15 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => dispatch(fetchAds()), [dispatch])
 
-  const ads = useSelector(state => state.ads);
 
-  console.log(ads)
+  //  fetch(`${API_URL}/auth/user`)
+  //   .then(res => {
+  //     if (res.status === 200) {
+  //       console.log('user', res.json())
+  //       const login = res.json().login;
+  //       dispatch(logIn({ login }))
+  //     }} )
+
 
   return (
     <main>
@@ -32,6 +41,7 @@ function App() {
           <Route path="/ad/:id" element={<Ad />} />
           <Route path="/edit-ad/:id" element={<EditAd />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<Register />} />
           <Route path="/new-ad" element={<NewAd />} />
           <Route path="/search" element={<Search />} />

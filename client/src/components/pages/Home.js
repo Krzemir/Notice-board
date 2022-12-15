@@ -6,7 +6,6 @@ import AdList from "../features/AdList";
 const Home = () => {
 
   const ads = useSelector(getAllAds);
-  console.log('HOME ADS', ads)
   
   return (
     <>

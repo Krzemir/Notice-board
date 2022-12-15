@@ -11,7 +11,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
   const [avatar, setAvatar] = useState(null);
-  const [status, setStatus] = useState(null); // null, success, serverError, serverWarning, loginInUse, loading
+  const [status, setStatus] = useState(null); // null, success, serverError, clientError, loginInUse, loading
 
 const handleSubmit = (e) => {
   e.preventDefault();
@@ -32,7 +32,7 @@ const handleSubmit = (e) => {
       if (res.status === 201) {
         setStatus('success');
       } else if (res.status === 400) {
-        setStatus('serverWarning');
+        setStatus('clientError');
       } else if (res.status === 409) {
         setStatus('loginInUse');
       } else {
@@ -66,7 +66,7 @@ const handleSubmit = (e) => {
           </Alert>
         )}
 
-        {status === 'serverWarning' && (
+        {status === 'clientError' && (
           <Alert variant='warning' >
             <Alert.Heading>Not enough data</Alert.Heading>
             <p>You have to fill all the fields</p>
@@ -109,7 +109,7 @@ const handleSubmit = (e) => {
           <Form.Control type='file' onChange={ e => setAvatar(e.target.files[0]) }/>
         </Form.Group>
 
-        <Button variant='secondary' type='submit'>Submit</Button>
+        <Button variant='secondary' type='submit'>Join!</Button>
         
       </Form>
     </div>
