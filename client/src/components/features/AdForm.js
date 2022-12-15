@@ -3,20 +3,16 @@ import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 import { useState } from 'react';
-// import { useSelector } from 'react-redux';
-// import { useParams } from 'react-router-dom';
-// import { useNavigate } from 'react-router-dom';
-// import { getAdById } from '../../redux/adsRedux';
-// import { getUser } from '../../redux/usersRedux';
 import { currentDate } from '../../utils.js/getDate';
 import { API_URL } from '../../config';
 
 const AdForm = ({ad}) => {
   console.log('AD: ', ad)
 
-  const[name, setName] = useState(ad.title || '');
-  const[price, setPrice] = useState(ad.price || '');
-  const[localization, setLocalization] = useState(ad.localization || '');
+  const[name, setName] = useState(ad ? ad.title : '');
+  const[price, setPrice] = useState(ad ? ad.price : '');
+  const[localization, setLocalization] = useState(ad ? ad.localization : '');
+  const[content, setContent] = useState(ad ? ad.content : '');
   const[photo, setPhoto] = useState(null);
   const[status, setStatus] = useState(null);
 
@@ -30,6 +26,7 @@ const AdForm = ({ad}) => {
     fd.append('title', name);
     fd.append('price', price);
     fd.append('localization', localization);
+    fd.append('content', content);
     fd.append('photo', photo);
     fd.append('date', date);
 
@@ -120,6 +117,11 @@ const AdForm = ({ad}) => {
         <Form.Control className="mb-3 text-muted" type="text" placeholder="Name your harbour" value={localization} onChange={ (e) => setLocalization(e.target.value)}/>  
       </Form.Group>
       
+      <Form.Group className='mb-3' controlId='formLogin'>
+        <Form.Label>Tell us her story</Form.Label>
+        <Form.Control as="textarea" rows={5} className="mb-3 text-muted"  placeholder="All the details about your boat" value={content} onChange={ (e) => setContent(e.target.value)}/>  
+      </Form.Group>
+
       <Form.Group className='mb-3' controlId='formLogin'>
         <Form.Label>What about a nice photo?</Form.Label>
         <Form.Control type="file" className="mb-3 text-muted" onChange={ e => setPhoto(e.target.files[0]) }/>

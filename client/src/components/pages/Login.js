@@ -44,7 +44,6 @@ const Login = () => {
       .catch(err => {
           setStatus('serverError');
       });
-    
 
 
   }
